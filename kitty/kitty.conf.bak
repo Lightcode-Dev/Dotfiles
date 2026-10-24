@@ -1,0 +1,41 @@
+# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  #
+
+# you can choose themes from $HOME/.config/kitty/kitty-themes/
+# include ./kitty-themes/mocha.conf ‹ (Now set below using a custom script  ~/.local/bin/kitty-theme-select.sh)
+# My Script uses fzf to search through my ~/.config/kitty/kitty-themes/ directory and copies the selected theme.conf file to a new file located at
+#~/.config/kitty/current-theme.conf which is loaded into my kitty.conf file!
+font_family TerminessNF
+font_size 14.0
+bold_font auto
+italic_font auto
+bold_italic_font auto
+
+background_opacity 0.9
+dynamic_background_opacity 1
+confirm_os_window_close 0
+
+# Animated cursor
+cursor_trail 1
+
+# change to x11 or wayland or leave auto
+linux_display_server auto
+
+scrollback_lines 2000
+wheel_scroll_min_lines 1
+
+enable_audio_bell no
+
+window_padding_width 4
+# selection_foreground none
+# selection_background none
+# foreground #dddddd
+# background #000000
+# cursor #dddddd
+# Allow clickable hyperlinks with your mouse
+allow_hyperlinks yes
+
+
+# BEGIN_KITTY_THEME
+# Blueberry Mango
+include current-theme.conf
+# END_KITTY_THEME
