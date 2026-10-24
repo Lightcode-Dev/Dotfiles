@@ -1,4 +1,6 @@
 # My Dotfiles repo
 
-This repo is for backing up my dotfiles, feel free to use them!
+## This is my Dotfile repo
+
+Here you will find my custom dotfiles!
 
