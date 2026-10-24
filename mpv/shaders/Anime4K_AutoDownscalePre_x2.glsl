@@ -1,0 +1,1 @@
+/usr/share/mpv-shim-default-shaders/shaders/Anime4K_AutoDownscalePre_x2.glsl

@@ -1,0 +1,1 @@
+/usr/share/mpv-shim-default-shaders/shaders/Anime4K_Denoise_Bilateral_Median.glsl

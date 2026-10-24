@@ -1,0 +1,1 @@
+/usr/share/mpv-shim-default-shaders/shaders/ArtCNN_C4F16_DS.glsl

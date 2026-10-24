@@ -1,0 +1,1 @@
+/usr/share/mpv-shim-default-shaders/shaders/Anime4K_Thin_HQ.glsl

@@ -1,0 +1,1 @@
+/usr/share/mpv-shim-default-shaders/shaders/FSRCNNX_x2_16-0-4-1.glsl
