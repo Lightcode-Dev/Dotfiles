@@ -1,0 +1,66 @@
+/* Wallpaper picker theme. Colors come from wallust-colors.rasi. */
+@import "wallust-colors.rasi"
+
+configuration {
+    show-icons: true;
+}
+
+* {
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+window {
+    width:            60%;
+    background-color: @bg;
+    border:           3px;
+    border-color:     @accent;
+    border-radius:    10px;
+    padding:          20px;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing:  15px;
+}
+
+inputbar {
+    children:         [ prompt, entry ];
+    background-color: @bg-alt;
+    border-radius:    8px;
+    padding:          8px 12px;
+    spacing:          8px;
+}
+
+prompt {
+    text-color: @accent;
+}
+
+listview {
+    columns:       3;
+    lines:         3;
+    fixed-columns: true;
+    spacing:       12px;
+}
+
+element {
+    orientation:   vertical;
+    padding:       10px;
+    spacing:       6px;
+    border-radius: 8px;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color:       @bg-alt;
+}
+
+element-icon {
+    size:             10em;
+    horizontal-align: 0.5;
+}
+
+element-text {
+    horizontal-align: 0.5;
+    text-color:       inherit;
+}

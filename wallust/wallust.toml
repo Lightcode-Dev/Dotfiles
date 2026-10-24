@@ -1,0 +1,25 @@
+# wallust.toml (wallust 3.x)
+
+# how colors are pulled out of the image
+backend = "fastresize"
+
+# colorspace used when picking the most prominent colors
+color_space = "labmixed"
+
+# dark16 = dark background with 16 colors
+palette = "dark16"
+
+# colors that are too similar get merged below this difference
+threshold = 11
+
+[templates]
+hypr.template = 'colors-hyprland.lua'
+hypr.target   = '~/.config/hypr/moodymoose-configs/colors.lua'
+rofi.template = 'colors-rofi.rasi'
+rofi.target   = '~/.config/rofi/wallust-colors.rasi'
+kitty.template = 'colors-kitty.conf'
+kitty.target   = '~/.config/kitty/themes/Wallust.conf'
+kitty-picker.template = 'colors-kitty.conf'
+kitty-picker.target   = '~/.config/kitty/kitty-themes/01-Wallust.conf'
+waybar.template = 'colors-waybar.css'
+waybar.target   = '~/.config/waybar/colors.css'

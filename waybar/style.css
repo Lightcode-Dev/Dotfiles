@@ -1,0 +1,64 @@
+@import "colors.css";
+
+* {
+    font-family: monospace;   /* swap in your Nerd Font later */
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: @fg;
+}
+
+/* every module sits in its own rounded pill */
+#workspaces, #window, #clock, #pulseaudio,
+#network, #cpu, #memory, #tray {
+    background: @bg;
+    color: @fg;
+    padding: 4px 12px;
+    margin: 0 3px;
+    border-radius: 10px;
+    border: 2px solid @accent;
+}
+
+/* hide the window pill when nothing is focused */
+window#waybar.empty #window {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+#workspaces {
+    padding: 2px 6px;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    margin: 0 2px;
+    background: transparent;
+    color: @fg;
+    border-radius: 8px;
+}
+
+#workspaces button:hover {
+    background: @bg-alt;
+}
+
+#workspaces button.active {
+    background: @accent;
+    color: @bg-alt;
+}
+
+#workspaces button.urgent {
+    background: @warn;
+    color: @bg-alt;
+}
+
+#pulseaudio.muted,
+#network.disconnected {
+    color: @warn;
+}

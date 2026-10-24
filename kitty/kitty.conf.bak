@@ -36,6 +36,6 @@ allow_hyperlinks yes
 
 
 # BEGIN_KITTY_THEME
-# Blueberry Mango
+# Catppuccin-Mocha
 include current-theme.conf
 # END_KITTY_THEME

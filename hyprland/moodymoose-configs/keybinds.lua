@@ -1,17 +1,19 @@
 -----------------------
 -- CUSTOM KEYBINDINGS--
 -----------------------
+local programs = require("moodymoose-configs/programs")
+local terminal, fileManager, menu = programs.terminal, programs.fileManager, programs.menu
 
--- Variables are local to this file, so they must be defined here
-local mainMod     = "SUPER"        -- "Windows" key as the main modifier
-local terminal    = "kitty"
-local fileManager = "dolphin"
-local menu        = "hyprlauncher"
+-- only keybinds uses this, so it stays local to this file
+local mainMod = "SUPER"
 
 -- Your binds
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))      -- launch terminal
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())          -- close focused window
-
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/wallpaper-select.sh"))  -- wallpaper picker script!
+-- re-apply the wallust theme to all kitty windows (after switching to another theme)
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("kitten themes --reload-in=all Wallust </dev/null"))
+hl.bind(mainMod .. " + CTRL + K", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/kitty-theme-picker.sh"))  -- kitty theme picker
 -- Default binds
 -- Exit Hyprland: use hyprshutdown if installed, otherwise fall back to a plain exit
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))

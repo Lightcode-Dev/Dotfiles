@@ -1,0 +1,62 @@
+/* Kitty theme picker. Colors come from wallust-colors.rasi. */
+@import "wallust-colors.rasi"
+
+* {
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+window {
+    width:            70%;
+    background-color: @bg;
+    border:           3px;
+    border-color:     @accent;
+    border-radius:    10px;
+    padding:          20px;
+}
+
+mainbox {
+    children: [ inputbar, message, listview ];
+    spacing:  12px;
+}
+
+inputbar {
+    children:         [ prompt, entry ];
+    background-color: @bg-alt;
+    border-radius:    8px;
+    padding:          8px 12px;
+    spacing:          8px;
+}
+
+prompt {
+    text-color: @accent;
+}
+
+message {
+    background-color: @bg-alt;
+    border-radius:    8px;
+    padding:          8px 12px;
+}
+
+listview {
+    columns:       3;
+    lines:         10;
+    fixed-columns: true;
+    spacing:       4px;
+    scrollbar:     false;
+    cycle:         true;
+}
+
+element {
+    padding:       8px 14px;
+    border-radius: 6px;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color:       @bg-alt;
+}
+
+element-text {
+    text-color: inherit;
+}

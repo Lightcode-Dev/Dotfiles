@@ -2,14 +2,19 @@
 ---- AUTOSTART ----
 -------------------
 
--- Locals don't cross file boundaries, so redefine anything you use here
-local terminal = "kitty"
+-- commands to launch once when Hyprland starts.
+-- Comment a line out to disable it.
+local startup = {
+    "nm-applet",
+    "waybar",
+    "hyprpaper",
+    "dunst",
+}
 
--- "hyprland.start" fires once when Hyprland launches.
--- hl.on(event, function) registers the function to run when that event happens.
+-- "hyprland.start" fires once per session (not on config reload)
 hl.on("hyprland.start", function()
-    -- hl.exec_cmd(cmd) runs a command, same as the one inside hl.bind
-    -- hl.exec_cmd(terminal)
-     hl.exec_cmd("nm-applet")
-     hl.exec_cmd("waybar & hyprpaper & dunst")  -- "&" backgrounds each one
+    for _, cmd in ipairs(startup) do
+        -- hl.exec_cmd is already asynchronous, so no "&" is needed
+        hl.exec_cmd(cmd)
+    end
 end)
