@@ -21,25 +21,30 @@
         "separate-outputs": true
     },
 
+    // \uf017 = clock
     "clock": {
-        "format": "{:%a %d %b   %H:%M}",
+        "format": "\uf017  {:%a %d %b   %H:%M}",
         "tooltip-format": "<tt>{calendar}</tt>"
     },
 
+    // \uf027 = speaker low, \uf028 = speaker high, \uf026 = speaker off
     "pulseaudio": {
-        "format": "vol {volume}%",
-        "format-muted": "muted",
+        "format": "{icon}  {volume}%",
+        "format-muted": "\uf026  muted",
+        "format-icons": { "default": ["\uf027", "\uf028"] },
         "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
     },
 
+    // \uf1eb = wifi, \uf0e8 = network (wired), \uf071 = warning
     "network": {
-        "format-wifi": "{essid}",
-        "format-ethernet": "{ipaddr}",
-        "format-disconnected": "offline",
+        "format-wifi": "\uf1eb  {essid}",
+        "format-ethernet": "\uf0e8  {ipaddr}",
+        "format-disconnected": "\uf071  offline",
         "tooltip-format": "{ifname}"
     },
 
-    "cpu":    { "format": "cpu {usage}%" },
-    "memory": { "format": "mem {percentage}%" },
+    // \uf2db = chip, \uf1c0 = database (used for memory)
+    "cpu":    { "format": "\uf2db  {usage}%" },
+    "memory": { "format": "\uf1c0  {percentage}%" },
     "tray":   { "spacing": 8 }
 }
