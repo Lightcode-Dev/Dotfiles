@@ -8,7 +8,7 @@
 
     "modules-left":   ["hyprland/workspaces", "hyprland/window"],
     "modules-center": ["clock"],
-    "modules-right":  ["pulseaudio", "network", "cpu", "memory", "tray"],
+    "modules-right":  ["pulseaudio", "network", "cpu", "memory", "tray", "custom/power"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -46,5 +46,12 @@
     // \uf2db = chip, \uf1c0 = database (used for memory)
     "cpu":    { "format": "\uf2db  {usage}%" },
     "memory": { "format": "\uf1c0  {percentage}%" },
-    "tray":   { "spacing": 8 }
+    "tray":   { "spacing": 8 },
+
+    // \uf011 = power-off icon; click opens the rofi power menu
+    "custom/power": {
+        "format": "\uf011",
+        "tooltip": false,
+        "on-click": "$HOME/.config/hypr/moodymoose-scripts/power-menu.sh"
+    }
 }

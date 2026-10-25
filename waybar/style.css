@@ -15,7 +15,7 @@ window#waybar {
 
 /* every module sits in its own rounded pill */
 #workspaces, #window, #clock, #pulseaudio,
-#network, #cpu, #memory, #tray {
+#network, #cpu, #memory, #tray, #custom-power {
     background: @bg;
     color: @fg;
     padding: 4px 12px;
@@ -61,4 +61,15 @@ window#waybar.empty #window {
 #pulseaudio.muted,
 #network.disconnected {
     color: @warn;
+}
+
+/* power button: warning color, fills in on hover */
+#custom-power {
+    color: @warn;
+    padding: 4px 14px;
+}
+
+#custom-power:hover {
+    background: @warn;
+    color: @bg-alt;
 }
