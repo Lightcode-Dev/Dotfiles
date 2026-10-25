@@ -26,7 +26,7 @@ notifications and lock screen all recolor to match it.
 | Bar | waybar 0.15 | pill-style modules, Nerd Font icons, power button |
 | Notifications | dunst | colors from a wallust drop-in, do-not-disturb toggle |
 | Lock screen | hyprlock | blurred current wallpaper, wallust colors |
-| Idle | hypridle | lock after 5 min, screen off after 10 |
+| Idle | hypridle | lock after 5 min, screen off after 10; on/off toggle in waybar |
 | Screenshots | grim + slurp + wl-clipboard | region, screen or window |
 
 ## Layout
@@ -58,7 +58,8 @@ place (see [Version control](#version-control)).
 │       ├── theme-refresh.sh      regenerate the palette and reload everything
 │       ├── screenshot.sh         region / screen / window screenshots
 │       ├── power-menu.sh         lock, logout, suspend, reboot, shutdown
-│       └── dnd.sh                do-not-disturb toggle and waybar status
+│       ├── dnd.sh                do-not-disturb toggle and waybar status
+│       └── autolock.sh           auto-lock (hypridle) toggle and waybar status
 ├── wallust/
 │   ├── wallust.toml
 │   └── templates/
@@ -227,6 +228,7 @@ wallust run -s --templates-dir ~/.config/wallust/templates ~/Pictures/wallpapers
 | **`SUPER + L`** | **lock screen** |
 | **`SUPER + Escape`** | **power menu** |
 | **`SUPER + N`** | **toggle do not disturb (pauses dunst)** |
+| **`SUPER + SHIFT + L`** | **toggle auto-lock (starts or stops hypridle)** |
 | **`Print`** | **screenshot: select a region** |
 | **`SHIFT + Print`** | **screenshot: whole screen** |
 | **`SUPER + Print`** | **screenshot: focused window** |
@@ -295,14 +297,15 @@ previous wallpaper pick, because wallust runs after the choice is made.
 ### Waybar
 
 Left: workspaces 1 to 5 (always shown) and the focused window title. Center:
-clock. Right: volume, network, CPU, memory, tray, a do-not-disturb bell and a
-power button. Every
+clock. Right: volume, network, CPU, memory, tray, an auto-lock padlock, a
+do-not-disturb bell and a power button. Every
 module is a rounded pill with an accent border, colored from `colors.css`.
 Icons are Nerd Font glyphs written as `\uXXXX` escapes in `config.jsonc`, with
 the font stack `"Terminess Nerd Font", "Symbols Nerd Font Mono", monospace`.
 The power button (`custom/power`) opens the power menu. The bell
 (`custom/dnd`) shows whether notifications are on or paused and toggles them
-on click.
+on click. The padlock (`custom/autolock`) shows whether auto-lock is on (closed)
+or off (open, in the warning color) and toggles it on click.
 
 ### Dunst
 
@@ -324,6 +327,25 @@ on shows a short "Notifications on" message, and anything held while paused
 appears after it. `SUPER + N` or a click on the bell toggles it. An optional
 dunst rule (`msg_urgency = critical` with `override_pause_level = 100`) can let
 critical notifications through while paused.
+
+### Auto-lock toggle
+
+`autolock.sh toggle` stops `hypridle` if it is running and starts it
+(`setsid hypridle`) if it is not, then signals waybar with `SIGRTMIN+9` so the
+`custom/autolock` module re-runs `autolock.sh status`. The state is simply
+"does a process named `hypridle` exist" (`pgrep -x hypridle`), so there is no
+state file to get out of sync. Stopping hypridle disables both the idle lock and
+the idle screen-off; `SUPER + L` still locks manually. `SUPER + SHIFT + L` or a
+click on the padlock toggles it.
+
+Waybar's built-in `idle_inhibitor` module was not used because its state lives
+inside waybar, which `theme-refresh.sh` restarts on every wallpaper change, so
+auto-lock would silently switch back on after each pick. Because hypridle is
+started from autostart, auto-lock is on again after every login.
+
+One caveat: with hypridle stopped, Suspend from the power menu does not lock
+first, because the lock-before-sleep command (`before_sleep_cmd`) belongs to
+hypridle.
 
 ### Hyprlock and hypridle
 
@@ -467,6 +489,12 @@ screen, which sources `hyprlock-colors.conf`. After the first login,
   lines more than once. `grep` the script for the line you expect.
 - **`config.jsonc` is strict JSON apart from comments.** A trailing comma stops
   waybar from starting; the error names the line.
+- **`notify-send` waits about 25 seconds when no notification daemon answers.**
+  Scripts that notify do it last, in the background and under `timeout`, so a
+  stopped dunst can never stall the real work or the waybar icon refresh.
+- **Waybar's `idle_inhibitor` state dies with waybar,** and the wallpaper
+  pipeline restarts waybar, so auto-lock is tracked by whether `hypridle` is
+  running instead.
 - **Hyprlock needs its config to exist, and a wrong password three times in a
   row locks you out for 10 minutes on Arch** (`pam_faillock`). Test unlocking
   with the right password first, and keep a TTY handy: `pkill -USR1 hyprlock`
@@ -491,6 +519,8 @@ screen, which sources `hyprlock-colors.conf`. After the first login,
 | Kitty does not follow the wallpaper | `head -2 ~/.config/kitty/current-theme.conf` should start with `## name: Wallust`; if it is on another theme, that is by design |
 | Rofi menu has no colors or errors | `~/.config/rofi/wallust-colors.rasi` must exist; run wallust once by hand |
 | Notifications keep old colors | `dunstctl reload`; check `~/.config/dunst/dunstrc.d/50-wallust.conf` exists |
+| Auto-lock padlock does not change when clicked | run `autolock.sh toggle` by hand and check `pgrep -x hypridle`; the module listens on signal 9: `pkill -SIGRTMIN+9 -x waybar` |
+| `notify-send` hangs or prints "Timeout was reached" | dunst is not running: `pgrep -a dunst`; start it with `setsid dunst >/dev/null 2>&1 &` |
 | Do-not-disturb icon does not change | the module listens on signal 8: `pkill -SIGRTMIN+8 -x waybar`; `dunstctl is-paused` shows the real state |
 | Lock screen shows an old wallpaper | `readlink ~/.cache/wallpaper-current` should match the active wallpaper |
 | Screen never turns off or back on | test `hyprctl dispatch hl.dsp.dpms '{ action = "off" }'` by hand, then `on` |
@@ -504,6 +534,7 @@ screen, which sources `hyprlock-colors.conf`. After the first login,
 - A custom notification sound (dunst plays none itself; a rule that runs a
   sound command would add one, and could skip it while paused)
 - A suspend timer in hypridle (left out on purpose)
+- Locking before Suspend from the power menu when auto-lock is off
 - Coloring the `slurp` selection rectangle from the wallust palette
 - Tiling or workspace rules for specific apps
 
