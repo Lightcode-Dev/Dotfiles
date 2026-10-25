@@ -22,7 +22,6 @@ generated=(
     "$HOME/.config/waybar/colors.css"
     "$HOME/.config/dunst/dunstrc.d/50-wallust.conf"
     "$HOME/.config/kitty/themes/Wallust.conf"
-    "$HOME/.config/kitty/kitty-themes/01-Wallust.conf"
 )
 
 # Succeeds (returns 0) if at least one generated file is missing
@@ -74,8 +73,7 @@ fi
 
 # --- prepare ---
 # Folders that only hold generated files are not tracked by git, so create them
-mkdir -p "$HOME/.cache" "$HOME/.config/dunst/dunstrc.d" \
-         "$KITTY_DIR/themes" "$KITTY_DIR/kitty-themes"
+mkdir -p "$HOME/.cache" "$HOME/.config/dunst/dunstrc.d" "$KITTY_DIR/themes"
 
 # Stable link to the current wallpaper (used by hyprlock)
 ln -sf "$image" "$CURRENT_LINK"
@@ -101,6 +99,12 @@ if generated_missing; then
     done
     echo "theme-refresh: not generated: ${missing[*]}" >&2
     notify-send -u critical "Theme refresh" "Not generated: ${missing[*]}" 2>/dev/null || true
+fi
+
+# --- reload everything that uses the palette ---
+# kitty's own theme tool re-applies the Wallust theme in every running kitty
+if $kitty_was_wallust; then
+    kitten themes --reload-in=all Wallust </dev/null || true
 fi
 
 dunstctl reload || true

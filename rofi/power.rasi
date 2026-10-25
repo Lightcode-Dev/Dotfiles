@@ -1,4 +1,4 @@
-/* Kitty theme picker. Colors come from wallust-colors.rasi. */
+/* Power menu theme. Colors come from wallust-colors.rasi. */
 @import "wallust-colors.rasi"
 
 * {
@@ -7,29 +7,17 @@
 }
 
 window {
-    width:            70%;
+    width:            300px;
     background-color: @bg;
     border:           3px;
     border-color:     @accent;
     border-radius:    10px;
-    padding:          20px;
+    padding:          15px;
 }
 
 mainbox {
-    children: [ inputbar, message, listview ];
+    children: [ message, listview ];
     spacing:  12px;
-}
-
-inputbar {
-    children:         [ prompt, entry ];
-    background-color: @bg-alt;
-    border-radius:    8px;
-    padding:          8px 12px;
-    spacing:          8px;
-}
-
-prompt {
-    text-color: @accent;
 }
 
 message {
@@ -39,16 +27,15 @@ message {
 }
 
 listview {
-    columns:       3;
-    lines:         10;
+    columns:       1;
+    lines:         5;
     fixed-columns: true;
     spacing:       4px;
     scrollbar:     false;
-    cycle:         true;
 }
 
 element {
-    padding:       8px 14px;
+    padding:       10px 14px;
     border-radius: 6px;
 }
 

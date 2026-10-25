@@ -3,8 +3,8 @@
 **/rofi/wallust-colors.rasi
 **/waybar/colors.css
 **/kitty/themes/Wallust.conf
-**/kitty/kitty-themes/01-Wallust.conf
-
+**/dunst/dunstrc.d/50-wallust.conf
+**/hyprland/hyprlock-colors.conf
 # --- machine state, not configuration ---
 # rewritten by wallpaper-select.sh, contains an absolute path
 **/hyprland/hyprpaper.conf
