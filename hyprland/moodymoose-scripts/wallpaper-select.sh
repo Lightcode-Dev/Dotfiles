@@ -26,6 +26,10 @@ choice="$(list_wallpapers | rofi -dmenu -i -p "Wallpaper" -show-icons \
 
 path="$WALL_DIR/$choice"
 
+# Stable symlink to the current wallpaper (used by hyprlock)
+mkdir -p "$HOME/.cache"
+ln -sf "$path" "$HOME/.cache/wallpaper-current"
+
 # Rewrite hyprpaper.conf so the choice survives a restart or re-login
 cat > "$CONF" <<EOF
 wallpaper {
@@ -53,6 +57,9 @@ wallust run -s --templates-dir "$HOME/.config/wallust/templates" "$path"
 if $kitty_was_wallust; then
     kitten themes --reload-in=all Wallust </dev/null || true
 fi
+
+# Reload dunst's config in place so notifications use the new colors
+dunstctl reload || true
 
 # Restart waybar so it reads the new colors.css from scratch
 pkill -x waybar || true

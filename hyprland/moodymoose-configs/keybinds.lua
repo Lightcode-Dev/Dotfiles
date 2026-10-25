@@ -11,6 +11,7 @@ local mainMod = "SUPER"
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))      -- launch terminal
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())          -- close focused window
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/wallpaper-select.sh"))  -- wallpaper picker script!
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))   -- lock screen
 -- re-apply the wallust theme to all kitty windows (after switching to another theme)
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("kitten themes --reload-in=all Wallust </dev/null"))
 hl.bind(mainMod .. " + CTRL + K", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/kitty-theme-picker.sh"))  -- kitty theme picker

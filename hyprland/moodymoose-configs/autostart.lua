@@ -9,6 +9,7 @@ local startup = {
     "waybar",
     "hyprpaper",
     "dunst",
+    "hypridle"
 }
 
 -- "hyprland.start" fires once per session (not on config reload)
