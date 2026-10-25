@@ -22,6 +22,7 @@ generated=(
     "$HOME/.config/waybar/colors.css"
     "$HOME/.config/dunst/dunstrc.d/50-wallust.conf"
     "$HOME/.config/kitty/themes/Wallust.conf"
+    "$HOME/.config/qt6ct/colors/Wallust.conf"
 )
 
 # Succeeds (returns 0) if at least one generated file is missing
@@ -73,7 +74,7 @@ fi
 
 # --- prepare ---
 # Folders that only hold generated files are not tracked by git, so create them
-mkdir -p "$HOME/.cache" "$HOME/.config/dunst/dunstrc.d" "$KITTY_DIR/themes"
+mkdir -p "$HOME/.cache" "$HOME/.config/dunst/dunstrc.d" "$KITTY_DIR/themes" "$HOME/.config/qt6ct/colors"
 
 # Stable link to the current wallpaper (used by hyprlock)
 ln -sf "$image" "$CURRENT_LINK"
