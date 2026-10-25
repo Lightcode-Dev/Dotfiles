@@ -12,10 +12,12 @@ hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))      -- launch terminal
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())          -- close focused window
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/wallpaper-select.sh"))  -- wallpaper picker script!
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))   -- lock screen
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/autolock.sh toggle"))  -- toggle auto-lock
 hl.bind(mainMod .. " + CTRL + K",  hl.dsp.exec_cmd("kitty --class kitty-themes -e kitten themes --reload-in=all"))  -- kitty's theme selector
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("kitten themes --reload-in=all Wallust </dev/null"))  -- snap kitty back to the wallpaper theme
 hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/power-menu.sh"))  -- power menu
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/dnd.sh toggle"))  -- do not disturb
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/power-profile.sh"))  -- cycle power profile
 -- Default binds
 -- Exit Hyprland: use hyprshutdown if installed, otherwise fall back to a plain exit
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))

@@ -28,6 +28,7 @@ notifications and lock screen all recolor to match it.
 | Lock screen | hyprlock | blurred current wallpaper, wallust colors |
 | Idle | hypridle | lock after 5 min, screen off after 10; on/off toggle in waybar |
 | Screenshots | grim + slurp + wl-clipboard | region, screen or window |
+| Power profiles | power-profiles-daemon | waybar module and keybind; performance is labeled "Overclocking" |
 
 ## Layout
 
@@ -59,7 +60,8 @@ place (see [Version control](#version-control)).
 │       ├── screenshot.sh         region / screen / window screenshots
 │       ├── power-menu.sh         lock, logout, suspend, reboot, shutdown
 │       ├── dnd.sh                do-not-disturb toggle and waybar status
-│       └── autolock.sh           auto-lock (hypridle) toggle and waybar status
+│       ├── autolock.sh           auto-lock (hypridle) toggle and waybar status
+│       └── power-profile.sh      cycle the power profile
 ├── wallust/
 │   ├── wallust.toml
 │   └── templates/
@@ -100,7 +102,7 @@ From the official repos:
 ```bash
 sudo pacman -S hyprland hyprpaper hyprlock hypridle rofi kitty waybar dunst \
     network-manager-applet libnotify wireplumber brightnessctl playerctl \
-    dolphin grim slurp wl-clipboard jq ttf-terminus-nerd
+    dolphin grim slurp wl-clipboard jq power-profiles-daemon ttf-terminus-nerd
 ```
 
 From the AUR:
@@ -115,6 +117,9 @@ Notes:
   `rofi` package in 2.0.0, so the old `rofi-wayland` package is not needed.
 - **wallust 3.x.** The wallust 4 line is a pre-release with an incompatible
   config format (`wallust migrate` converts it). The config here is for v3.
+- `power-profiles-daemon` is a service: enable it with
+  `sudo systemctl enable --now power-profiles-daemon`, and do not run another
+  power manager (tlp, auto-cpufreq) next to it.
 - `wpctl` (volume keys) comes from `wireplumber`; `notify-send` from `libnotify`;
   `jq` is only used by the focused-window screenshot mode.
 - **Fonts:** Terminess Nerd Font (`ttf-terminus-nerd`) is the font everywhere.
@@ -229,6 +234,7 @@ wallust run -s --templates-dir ~/.config/wallust/templates ~/Pictures/wallpapers
 | **`SUPER + Escape`** | **power menu** |
 | **`SUPER + N`** | **toggle do not disturb (pauses dunst)** |
 | **`SUPER + SHIFT + L`** | **toggle auto-lock (starts or stops hypridle)** |
+| **`SUPER + SHIFT + P`** | **cycle the power profile** |
 | **`Print`** | **screenshot: select a region** |
 | **`SHIFT + Print`** | **screenshot: whole screen** |
 | **`SUPER + Print`** | **screenshot: focused window** |
@@ -297,7 +303,7 @@ previous wallpaper pick, because wallust runs after the choice is made.
 ### Waybar
 
 Left: workspaces 1 to 5 (always shown) and the focused window title. Center:
-clock. Right: volume, network, CPU, memory, tray, an auto-lock padlock, a
+clock. Right: volume, network, power profile, CPU, memory, tray, an auto-lock padlock, a
 do-not-disturb bell and a power button. Every
 module is a rounded pill with an accent border, colored from `colors.css`.
 Icons are Nerd Font glyphs written as `\uXXXX` escapes in `config.jsonc`, with
@@ -315,6 +321,22 @@ wallust drop-in `dunstrc.d/50-wallust.conf`: accent frame for normal
 notifications, a muted frame for low urgency and the warning color for
 critical ones. Dunst reads a drop-in only if a base `dunstrc` exists next to
 it, which is why the base file is required.
+
+### Power profiles
+
+Waybar's built-in `power-profiles-daemon` module shows the active profile and
+cycles through the available ones when clicked. Each entry in its `format-icons`
+is an icon plus a text label, which is how the `performance` profile reads
+**Overclocking** (a label only: on this machine `powerprofilesctl list` shows a
+single driver, `intel_pstate`, which changes the CPU's energy/performance
+preference, and the platform driver is a placeholder). The module carries a CSS
+class named after the active profile, so `performance` uses the warning color and
+`power-saver` the secondary accent.
+
+`power-profile.sh` cycles the profile from the keyboard (`SUPER + SHIFT + P`): it
+reads the available profiles from `powerprofilesctl list`, moves to the next one
+(wrapping around), and sends a short notification. Waybar updates by itself,
+because the module listens to the daemon.
 
 ### Do not disturb
 
@@ -519,6 +541,7 @@ screen, which sources `hyprlock-colors.conf`. After the first login,
 | Kitty does not follow the wallpaper | `head -2 ~/.config/kitty/current-theme.conf` should start with `## name: Wallust`; if it is on another theme, that is by design |
 | Rofi menu has no colors or errors | `~/.config/rofi/wallust-colors.rasi` must exist; run wallust once by hand |
 | Notifications keep old colors | `dunstctl reload`; check `~/.config/dunst/dunstrc.d/50-wallust.conf` exists |
+| Power profile pill missing or empty | `systemctl status power-profiles-daemon` must be active; `powerprofilesctl list` shows the profiles the hardware offers |
 | Auto-lock padlock does not change when clicked | run `autolock.sh toggle` by hand and check `pgrep -x hypridle`; the module listens on signal 9: `pkill -SIGRTMIN+9 -x waybar` |
 | `notify-send` hangs or prints "Timeout was reached" | dunst is not running: `pgrep -a dunst`; start it with `setsid dunst >/dev/null 2>&1 &` |
 | Do-not-disturb icon does not change | the module listens on signal 8: `pkill -SIGRTMIN+8 -x waybar`; `dunstctl is-paused` shows the real state |
