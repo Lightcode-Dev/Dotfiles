@@ -1,4 +1,4 @@
-# moodymoose: a Hyprland Lua desktop
+# My Custom Hyprland Dotfiles
 
 A from-scratch Hyprland setup on Arch Linux, written in Hyprland's Lua config
 (0.55+) so the syntax is learned rather than copied. The design is modeled on
