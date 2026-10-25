@@ -15,7 +15,7 @@ window#waybar {
 
 /* every module sits in its own rounded pill */
 #workspaces, #window, #clock, #pulseaudio,
-#network, #cpu, #memory, #tray, #custom-power {
+#network, #cpu, #memory, #tray, #custom-power, #custom-dnd {
     background: @bg;
     color: @fg;
     padding: 4px 12px;
@@ -72,4 +72,9 @@ window#waybar.empty #window {
 #custom-power:hover {
     background: @warn;
     color: @bg-alt;
+}
+
+/* do not disturb: warning color while notifications are paused */
+#custom-dnd.paused {
+    color: @warn;
 }

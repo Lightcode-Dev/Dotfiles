@@ -1,0 +1,47 @@
+[global]
+    monitor = 0
+    origin = top-right
+    # (x, y) from the corner; y clears the waybar (34px + 6px margin)
+    offset = (15, 55)
+    width = (300, 420)
+    notification_limit = 5
+    gap_size = 8
+    padding = 12
+    horizontal_padding = 14
+
+    # match the Hyprland window borders and rounding
+    frame_width = 3
+    corner_radius = 10
+
+    font = Terminess Nerd Font 11
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    show_age_threshold = 60
+
+    icon_position = left
+    max_icon_size = 48
+
+    progress_bar = true
+    progress_bar_height = 10
+    progress_bar_frame_width = 1
+
+    stack_duplicates = true
+    sort = yes
+
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+[urgency_low]
+    timeout = 5
+
+[urgency_normal]
+    timeout = 8
+
+[urgency_critical]
+    timeout = 0
+
+[critical-while-paused]
+    msg_urgency = critical
+    override_pause_level = 100

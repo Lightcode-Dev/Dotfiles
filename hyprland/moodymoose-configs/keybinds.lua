@@ -15,6 +15,8 @@ hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))   -- l
 -- re-apply the wallust theme to all kitty windows (after switching to another theme)
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("kitten themes --reload-in=all Wallust </dev/null"))
 hl.bind(mainMod .. " + CTRL + K", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/kitty-theme-picker.sh"))  -- kitty theme picker
+hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/power-menu.sh"))  -- power menu
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/dnd.sh toggle"))  -- do not disturb
 -- Default binds
 -- Exit Hyprland: use hyprshutdown if installed, otherwise fall back to a plain exit
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
