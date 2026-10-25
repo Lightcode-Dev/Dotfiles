@@ -8,7 +8,7 @@
 
     "modules-left":   ["hyprland/workspaces", "hyprland/window"],
     "modules-center": ["clock"],
-    "modules-right":  ["pulseaudio", "network", "cpu", "memory", "tray", "custom/dnd", "custom/power"],
+    "modules-right":  ["pulseaudio", "network", "power-profiles-daemon", "cpu", "memory", "tray", "custom/autolock", "custom/dnd", "custom/power"],
 
     "hyprland/workspaces": {
         "format": "{id}",
@@ -48,7 +48,28 @@
     "memory": { "format": "\uf1c0  {percentage}%" },
     "tray":   { "spacing": 8 },
 
+       // bolt = performance (labeled "Overclocking"), scale = balanced, leaf = power saver
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip": true,
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}\nClick to cycle",
+        "format-icons": {
+            "default":     "\uf0e7",
+            "performance": "\uf0e7  Overclocking",
+            "balanced":    "\uf24e  Balanced",
+            "power-saver": "\uf06c  Power saver"
+        }
+    },
 
+   // padlock: closed = auto-lock on, open = auto-lock off
+    "custom/autolock": {
+        "exec": "$HOME/.config/hypr/moodymoose-scripts/autolock.sh status",
+        "return-type": "json",
+        "format": "{}",
+        "interval": "once",
+        "signal": 9,
+        "on-click": "$HOME/.config/hypr/moodymoose-scripts/autolock.sh toggle"
+    },
 
     // bell = notifications on, crossed-out bell = do not disturb
     "custom/dnd": {

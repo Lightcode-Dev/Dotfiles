@@ -15,7 +15,7 @@ window#waybar {
 
 /* every module sits in its own rounded pill */
 #workspaces, #window, #clock, #pulseaudio,
-#network, #cpu, #memory, #tray, #custom-power, #custom-dnd {
+#network, #cpu, #memory, #tray, #custom-power, #custom-dnd, #custom-autolock, #power-profiles-daemon {
     background: @bg;
     color: @fg;
     padding: 4px 12px;
@@ -77,4 +77,18 @@ window#waybar.empty #window {
 /* do not disturb: warning color while notifications are paused */
 #custom-dnd.paused {
     color: @warn;
+}
+
+/* auto-lock off: warning color so you notice the screen won't lock */
+#custom-autolock.off {
+    color: @warn;
+}
+
+/* power profile: the module gets a class named after the active profile */
+#power-profiles-daemon.performance {
+    color: @warn;
+}
+
+#power-profiles-daemon.power-saver {
+    color: @accent2;
 }
