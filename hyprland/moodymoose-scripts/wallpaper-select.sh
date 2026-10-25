@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# wallpaper-select.sh: pick a wallpaper with rofi thumbnails, apply it,
-# then regenerate the wallust palette and refresh everything that uses it.
+# wallpaper-select.sh: pick a wallpaper with rofi thumbnails and apply it,
+# then hand off to theme-refresh.sh to recolor everything.
 
 set -euo pipefail
 
 WALL_DIR="$HOME/Pictures/wallpapers"
 CONF="$HOME/.config/hypr/hyprpaper.conf"
-KITTY_DIR="$HOME/.config/kitty"
+REFRESH="$HOME/.config/hypr/moodymoose-scripts/theme-refresh.sh"
 
 # One rofi row per image: "relative/path.png", then \0icon\x1f<full path>
 list_wallpapers() {
@@ -26,10 +26,6 @@ choice="$(list_wallpapers | rofi -dmenu -i -p "Wallpaper" -show-icons \
 
 path="$WALL_DIR/$choice"
 
-# Stable symlink to the current wallpaper (used by hyprlock)
-mkdir -p "$HOME/.cache"
-ln -sf "$path" "$HOME/.cache/wallpaper-current"
-
 # Rewrite hyprpaper.conf so the choice survives a restart or re-login
 cat > "$CONF" <<EOF
 wallpaper {
@@ -44,27 +40,5 @@ EOF
 # Apply the wallpaper right now, without restarting hyprpaper
 hyprctl hyprpaper wallpaper ",$path,cover"
 
-# Is kitty on the wallust theme right now? (checked before wallust rewrites it)
-kitty_was_wallust=false
-if grep -q '^## name: Wallust$' "$KITTY_DIR/current-theme.conf" 2>/dev/null; then
-    kitty_was_wallust=true
-fi
-
-# Regenerate every palette (borders, rofi, kitty, waybar) from the new wallpaper
-wallust run -s --templates-dir "$HOME/.config/wallust/templates" "$path"
-
-# If kitty was on the wallust theme, re-apply it in every running kitty
-if $kitty_was_wallust; then
-    kitten themes --reload-in=all Wallust </dev/null || true
-fi
-
-# Reload dunst's config in place so notifications use the new colors
-dunstctl reload || true
-
-# Restart waybar so it reads the new colors.css from scratch
-pkill -x waybar || true
-sleep 0.2
-setsid waybar >/dev/null 2>&1 &
-
-# Reload Hyprland last so the borders pick up the new colors.lua
-hyprctl reload
+# Everything else (palette, symlink, kitty, dunst, waybar, borders) lives in one place
+exec "$REFRESH" "$path"

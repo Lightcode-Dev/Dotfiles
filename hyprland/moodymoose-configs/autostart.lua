@@ -5,6 +5,7 @@
 -- commands to launch once when Hyprland starts.
 -- Comment a line out to disable it.
 local startup = {
+    "$HOME/.config/hypr/moodymoose-scripts/theme-refresh.sh --if-missing",
     "nm-applet",
     "waybar",
     "hyprpaper",
