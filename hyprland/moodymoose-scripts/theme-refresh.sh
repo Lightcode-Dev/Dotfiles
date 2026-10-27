@@ -23,6 +23,7 @@ generated=(
     "$HOME/.config/dunst/dunstrc.d/50-wallust.conf"
     "$HOME/.config/kitty/themes/Wallust.conf"
     "$HOME/.config/qt6ct/colors/Wallust.conf"
+    "$HOME/.cache/wallust-colors.env"
 )
 
 # Succeeds (returns 0) if at least one generated file is missing
@@ -110,6 +111,7 @@ fi
 
 dunstctl reload || true
 
+"$HOME/.config/hypr/moodymoose-scripts/icon-theme-refresh.sh" || true
 pkill -x waybar || true
 sleep 0.2
 setsid waybar >/dev/null 2>&1 &
