@@ -449,9 +449,9 @@ inside waybar, which `theme-refresh.sh` restarts on every wallpaper change, so
 auto-lock would silently switch back on after each pick. Because hypridle is
 started from autostart, auto-lock is on again after every login.
 
-One caveat: with hypridle stopped, Suspend from the power menu does not lock
-first, because the lock-before-sleep command (`before_sleep_cmd`) belongs to
-hypridle.
+Suspend from the power menu does not depend on hypridle: it locks the screen
+itself before sleeping, so waking never shows an unlocked desktop even with
+auto-lock off.
 
 ### Hyprlock and hypridle
 
@@ -478,6 +478,14 @@ clipboard with `wl-copy` and sends a dunst notification.
 Logout, Reboot and Shutdown ask for confirmation first, with "No, cancel" as
 the first and default entry. It is opened by `SUPER + Escape` or the waybar
 power button.
+
+Suspend first starts hyprlock (if it is not already running), waits for it to
+come up and pauses a second, then runs `systemctl suspend`, so the session is
+locked before the machine sleeps whether or not hypridle is running (hypridle's
+own `before_sleep_cmd` also locks, and the `pidof hyprlock ||` guard prevents a
+second lock screen). To test without sleeping, run
+`SUSPEND_CMD="echo would suspend" power-menu.sh`: it locks, then prints instead
+of suspending.
 
 ## Version control
 
@@ -621,6 +629,10 @@ screen, which sources `hyprlock-colors.conf`. After the first login,
 - **Tray icons cannot be recolored with CSS.** They are bitmaps looked up by
   name in the GTK icon theme, so a dark theme (`breeze`) gives a black icon on
   a dark bar. The fix is an icon theme that carries palette-colored copies.
+- **Lock first, and wait for the lock, before suspending.** Starting hyprlock and
+  suspending in the same instant can put the machine to sleep before the session
+  lock engages. The power menu waits for hyprlock to be running and pauses a
+  second before suspending.
 - **Hyprland `env` values only reach programs started afterwards.** Open a new
   terminal (or restart the app) after changing `env.lua`.
 - **Hyprlock needs its config to exist, and a wrong password three times in a
@@ -668,7 +680,6 @@ screen, which sources `hyprlock-colors.conf`. After the first login,
 - A suspend timer in hypridle (left out on purpose)
 - Recoloring more icon categories (folders, apps) in the Wallust icon theme, and
   pointing qt6ct at it
-- Locking before Suspend from the power menu when auto-lock is off
 - Coloring the `slurp` selection rectangle from the wallust palette
 - Tiling or workspace rules for specific apps
 
