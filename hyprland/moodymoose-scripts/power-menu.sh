@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 # power-menu.sh: rofi power menu (lock, logout, suspend, reboot, shutdown).
 # Logout, reboot and shutdown ask for confirmation first.
+# Suspend locks the screen first, so waking never shows an unlocked desktop.
 
 set -uo pipefail
 
 ROFI_THEME="$HOME/.config/rofi/power.rasi"
+
+# Testing: SUSPEND_CMD="echo would suspend" power-menu.sh  (locks, but does not sleep)
+SUSPEND_CMD="${SUSPEND_CMD:-systemctl suspend}"
 
 # Icon + label. \uXXXX are Nerd Font glyphs.
 lock=$'\uf023  Lock'
@@ -26,6 +30,17 @@ confirm() {
     [[ "$answer" == "Yes, $1" ]]
 }
 
+# Start hyprlock if it is not running, and wait until it is up
+# (up to 3 seconds), then give it a moment to take the session lock.
+lock_and_wait() {
+    pidof hyprlock >/dev/null || setsid hyprlock >/dev/null 2>&1 &
+    for _ in $(seq 1 30); do
+        pidof hyprlock >/dev/null && break
+        sleep 0.1
+    done
+    sleep 1
+}
+
 choice="$(printf '%s\n' "$lock" "$logout" "$suspend" "$reboot" "$shutdown" \
     | menu "Power menu")" || exit 0     # Esc closes the menu
 
@@ -40,7 +55,8 @@ case "$choice" in
         fi
         ;;
     "$suspend")
-        systemctl suspend
+        lock_and_wait
+        $SUSPEND_CMD
         ;;
     "$reboot")
         confirm "Reboot" && systemctl reboot
