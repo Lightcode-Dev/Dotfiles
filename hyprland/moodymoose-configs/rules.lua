@@ -92,3 +92,11 @@ hl.window_rule({
     match     = { class = "^(org\\.qbittorrent\\.qBittorrent)$" },
     workspace = "5 silent",
 })
+
+-- Element Matrix Client
+
+hl.window_rule({
+    name    = "Element-on-workspace-5",
+    match   = { class = "^(Element)$" },
+    workspace   = "6",
+})

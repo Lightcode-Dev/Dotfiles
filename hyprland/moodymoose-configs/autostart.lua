@@ -6,11 +6,12 @@
 -- Comment a line out to disable it.
 local startup = {
     "$HOME/.config/hypr/moodymoose-scripts/theme-refresh.sh --if-missing",
+    "systemctl --user start hyprpolkitagent",
     "nm-applet",
     "waybar",
     "hyprpaper",
     "dunst",
-    "hypridle"
+    "hypridle",
 }
 
 -- "hyprland.start" fires once per session (not on config reload)

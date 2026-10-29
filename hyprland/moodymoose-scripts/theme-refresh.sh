@@ -24,6 +24,7 @@ generated=(
     "$HOME/.config/kitty/themes/Wallust.conf"
     "$HOME/.config/qt6ct/colors/Wallust.conf"
     "$HOME/.cache/wallust-colors.env"
+    "$HOME/.config/hypr/hyprtoolkit.conf"
 )
 
 # Succeeds (returns 0) if at least one generated file is missing
