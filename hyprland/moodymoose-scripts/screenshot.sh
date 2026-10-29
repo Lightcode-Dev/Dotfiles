@@ -7,14 +7,24 @@
 set -euo pipefail
 
 DIR="$HOME/Pictures/Screenshots"
+ENVF="$HOME/.cache/wallust-colors.env"
 mkdir -p "$DIR"
 file="$DIR/$(date +%Y-%m-%d_%H-%M-%S).png"
 
 geom=""
 case "${1:-region}" in
     region)
+        # Color the selector from the wallust palette (BG and ACCENT are "#RRGGBB").
+        # If the palette file is missing, slurp just uses its default colors.
+        slurp_args=()
+        if [[ -f "$ENVF" ]]; then
+            source "$ENVF"
+            # -b dims everything outside the selection, -c is the border,
+            # -s tints the inside of the selection, -w is the border weight
+            slurp_args=(-b "${BG}88" -c "${ACCENT}ff" -s "${ACCENT}22" -w 3)
+        fi
         # slurp prints the selection as "x,y WxH"; it exits non-zero on Esc
-        geom="$(slurp -d)" || exit 0
+        geom="$(slurp -d "${slurp_args[@]}")" || exit 0
         ;;
     screen)
         ;;
@@ -37,4 +47,6 @@ else
 fi
 
 wl-copy < "$file"
-notify-send -i "$file" "Screenshot saved" "$file"
+
+# Backgrounded and capped at 2 seconds, so a stopped dunst can't stall the script
+timeout 2 notify-send -i "$file" "Screenshot saved" "$file" >/dev/null 2>&1 &
