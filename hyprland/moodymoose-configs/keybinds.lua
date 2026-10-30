@@ -18,6 +18,9 @@ hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("kitten themes --reload-in=al
 hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/power-menu.sh"))  -- power menu
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/dnd.sh toggle"))  -- do not disturb
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/power-profile.sh"))  -- cycle power profile
+hl.bind(mainMod .. " + CTRL + V",  hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/clipboard-menu.sh"))         -- clipboard history
+hl.bind(mainMod .. " + ALT + V",   hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/clipboard-menu.sh delete"))  -- delete a history entry
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("$HOME/.config/hypr/moodymoose-scripts/color-picker.sh"))           -- color picker
 -- Default binds
 -- Exit Hyprland: use hyprshutdown if installed, otherwise fall back to a plain exit
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))

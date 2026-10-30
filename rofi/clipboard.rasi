@@ -1,0 +1,55 @@
+/* Clipboard history theme. Colors come from wallust-colors.rasi. */
+@import "wallust-colors.rasi"
+
+* {
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+window {
+    width:            700px;
+    background-color: @bg;
+    border:           3px;
+    border-color:     @accent;
+    border-radius:    10px;
+    padding:          15px;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing:  12px;
+}
+
+inputbar {
+    children:         [ prompt, entry ];
+    background-color: @bg-alt;
+    border-radius:    8px;
+    padding:          8px 12px;
+    spacing:          8px;
+}
+
+prompt {
+    text-color: @accent;
+}
+
+listview {
+    columns:       1;
+    lines:         10;
+    fixed-columns: true;
+    spacing:       4px;
+    scrollbar:     false;
+}
+
+element {
+    padding:       8px 12px;
+    border-radius: 6px;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color:       @bg-alt;
+}
+
+element-text {
+    text-color: inherit;
+}

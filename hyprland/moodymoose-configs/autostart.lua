@@ -12,6 +12,8 @@ local startup = {
     "hyprpaper",
     "dunst",
     "hypridle",
+    "wl-paste --type text --watch cliphist store",
+    "wl-paste --type image --watch cliphist store",
 }
 
 -- "hyprland.start" fires once per session (not on config reload)
