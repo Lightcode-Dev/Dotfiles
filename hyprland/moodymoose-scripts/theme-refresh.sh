@@ -110,7 +110,10 @@ if $kitty_was_wallust; then
     kitten themes --reload-in=all Wallust </dev/null || true
 fi
 
+# dunstctl reload clears the paused (do not disturb) state, so remember and restore it
+dunst_paused="$(dunstctl is-paused 2>/dev/null || echo false)"
 dunstctl reload || true
+if [[ "$dunst_paused" == "true" ]]; then dunstctl set-paused true || true; fi
 
 "$HOME/.config/hypr/moodymoose-scripts/icon-theme-refresh.sh" || true
 pkill -x waybar || true
