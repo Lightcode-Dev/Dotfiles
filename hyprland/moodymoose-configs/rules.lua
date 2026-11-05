@@ -84,6 +84,11 @@ hl.window_rule({
     workspace   = "4",
 })
 
+hl.window_rule({
+    name    = "doom-emacs-on-5",
+    match   = { class = "^(Emacs)$" },
+    workspace   = "5",
+})
 
 -- Qbittorrent
 

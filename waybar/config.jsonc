@@ -21,9 +21,9 @@
         "separate-outputs": true
     },
 
-    // \uf017 = clock
+       // \uf017 = clock 12-Hour format
     "clock": {
-        "format": "\uf017  {:%a %d %b   %H:%M}",
+        "format": "\uf017  {:%a %d %b   %I:%M %p}",
         "tooltip-format": "<tt>{calendar}</tt>"
     },
 
