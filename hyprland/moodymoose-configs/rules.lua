@@ -53,36 +53,39 @@ hl.window_rule({
 -- The pattern is always the same: find the class, using the above command! then add a block with a match and one or more effects. 
 -- Some other effects from the wiki’s list that people commonly use are float = true (floating), size = "800 600", center = true, and monitor.
 
--- firefox
+-- Kitty
 
 hl.window_rule({
-    name      = "firefox-on-1",
-    match     = { class = "^(firefox)$" },
+    name      = "kitty-on-1",
+    match     = { class = "^(kitty)$" },
     workspace = "1",
 })
 
--- Kitty terminal
+-- Firefox
 
 hl.window_rule({
-    name      = "kitty-on-2",
-    match     = { class = "^(kitty)$" },
+    name      = "firefox-on-2",
+    match     = { class = "^(firefox)$" },
     workspace = "2"
+})
+
+-- Dolphin file manager
+
+hl.window_rule({
+    name      = "dolphin-on-3",
+    match     = { class = "^(org.kde.dolphin)$" },
+    workspace = "3",
 })
 
 -- Bitwarden
 
 hl.window_rule({
-    name      = "bitwarden-on-3",
-    match     = { class = "^(Bitwarden)$" },
-    workspace = "3",
-})
-
-
-hl.window_rule({
-    name    = "dolphin-on-4",
-    match   = { class = "^(org.kde.dolphin)$" },
+    name    = "bitwarden-on-4",
+    match   = { class = "^(bitwarden)$" },
     workspace   = "4",
 })
+
+-- Doom Emacs
 
 hl.window_rule({
     name    = "doom-emacs-on-5",
@@ -90,18 +93,18 @@ hl.window_rule({
     workspace   = "5",
 })
 
+-- Element Matrix client
+
+hl.window_rule({
+    name      = "Element-on-6",
+    match     = { class = "^(Element)$" },
+    workspace = "6",
+})
+
 -- Qbittorrent
 
 hl.window_rule({
-    name      = "qbittorrent-on-5-silent",
-    match     = { class = "^(org\\.qbittorrent\\.qBittorrent)$" },
-    workspace = "5 silent",
-})
-
--- Element Matrix Client
-
-hl.window_rule({
-    name    = "Element-on-workspace-5",
-    match   = { class = "^(Element)$" },
-    workspace   = "6",
+    name    = "Qbittorrent-on-7-silent",
+    match   = { class = "^(org\\.qbittorrent\\.qBittorrent)$" },
+    workspace   = "7 silent",
 })
